@@ -1,4 +1,5 @@
 from django.db import models
+from .models import Course, Classroom
 
 class Classroom(models.Model):
   class_name= models.CharField(max_length=20)
