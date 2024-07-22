@@ -2,34 +2,134 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from  rest_framework.views import APIView
 from  student.models import Student
-from  classes.models import Classroom
+from classroom.models import Classroom
 from teacher.models import Teacher
 from course.models import course
-from.serializer import StudentSerializer
-from.serializer import TeacherSerializer
-from.serializer import  CourseSerializer
-from.serializer import   ClassesSerializer
-
+from .serializers import  StudentSerializer
+from.serializers import ClassroomSerializer
+from .serializers import  TeacherSerializer
+from .serializers import CourseSerializer
+from  rest_framework.views import status
 class StudentListView(APIView):
     def get(self,request):
         student=Student.objects.all
         serializer=StudentSerializer(student,many=True)
         return Response(serializer.data)
-class ClassesListView(APIView):
+    def post(self,request):
+        Serializer=StudentSerializer(data= request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(Serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+class ClassroomListView(APIView):
     def get(self,request):
-        classes = Classroom.objects.all
-        serializer=ClassesSerializer(classes,many=True)
+        classroom=Classroom.objectseacherserializers.all
+        serializer=ClassroomSerializer(classroom,many=True)
         return Response(serializer.data)
+    def post(self,request):
+        Serializer=StudentSerializer(data= request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(Serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+
+    def post(self,request):
+        Serializer=ClassesSerializer(data= request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(Serializer.errors,status= status.HTTP_400_BAD_REQUEST)
 class TeacherListView(APIView):
     def get(self,request):
         teacher=Teacher.objects.all
         serializer= TeacherSerializer(teacher,many=True)
         return Response(serializer.data)
+    def post(self,request):
+        Serializer=TeacherSerializer(data= request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(Serializer.errors,status= status.HTTP_400_BAD_REQUEST)
 class CourseListView(APIView):
     def get(self,request):
-        course= course.objects.all
+        course=Course.objects.all
         serializer=CourseSerializer(course,many=True)
         return Response(serializer.data)
+    def post(self,request):
+        Serializer=CourseSerializer(data= request.data)
+        if Serializer.is_valid():
+            Serializer.save()
+            return Response(Serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(Serializer.errors,status= status.HTTP_400_BAD_REQUEST)
+class StudentDetailView(APIView):
+    def get(self,request,id):
+        Student=Student.objects.all.get(id=id)
+        serializer =StudentSerializer(Student)
+        return Response(serializer.data)
+    def put(self,request,id):
+        Student= Student.objects.get(id=id)
+        serializer=StudentSerializer(Student,data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,id):
+      Student= Student.objects.get(id=id)
+      Student.delete()
+      return Response(status=status.HTTP_202_ACCEPTED)
+class ClassroomDetailView(APIView):
+    def get(self,request,id):
+        Classroom=Classroom.objects.all.get(id=id)
+        serializer =ClassroomSerializer(Classroom)
+        return Response(serializer.data)
+    def put(self,request,id):
+        Classroom= Classroom.objects.get(id=id)
+        serializer=ClassroomSerializer(Classroom,data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,id):
+      Classroom= Classroom.objects.get(id=id)
+      Classroom.delete()
+      return Response(status=status.HTTP_202_ACCEPTED)
 
+class CourseDetailView(APIView):
+    def get(self,request,id):
+        Course=Course.objects.all.get(id=id)
+        serializer =CourseSerializer(Course)
+        return Response(serializer.data)
+    def put(self,request,id):
+        Course= Course.objects.get(id=id)
+        serializer=CourseSerializer(Course,data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,id):
+      Course= Course.objects.get(id=id)
+      Course.delete()
+      return Response(status=status.HTTP_202_ACCEPTED)
+class TeacherDetailView(APIView):
+    def get(self,request,id):
+        Teacher=Teacher.objects.all.get(id=id)
+        serializer =CourseSerializer(Course)
+        return Response(serializer.data)
+    def put(self,request,id):
+        Teacher= Teacher.objects.get(id=id)
+        serializer=TeacherSerializer(Course,data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    def delete(self,request,id):
+      Teacher= Teacher.objects.get(id=id)
+      Teacher.delete()
+      return Response(status=status.HTTP_202_ACCEPTED)
 
 # Create your views here.

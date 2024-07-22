@@ -38,11 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'student',
-    'school',
     'teacher',
     'classPeriod',
-    'classes',
+    'classroom',
     'course',
+    'school',
     'rest_framework',
 ]
 
